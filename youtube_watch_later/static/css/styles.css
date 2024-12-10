@@ -1,0 +1,1684 @@
+/* Variables et thèmes */
+:root {
+  /* Couleurs de base */
+  --primary: #ef4444;
+  --primary-hover: #dc2626;
+  --secondary: #1f2937;
+  --secondary-hover: #111827;
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+
+  /* Animations */
+  --transition-fast: 150ms;
+  --transition-normal: 300ms;
+  --transition-slow: 500ms;
+  --bezier-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --bezier-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animations globales */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.channel-card {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.channel-card.selected {
+  border-width: 2px;
+  transform: translateY(-1px);
+}
+
+/* Dans styles.css */
+@keyframes update-watch-time {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+    color: #ef4444; /* Rouge pour l'effet */
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes decrease-animation {
+  0% {
+    transform: scale(1);
+    color: inherit;
+  }
+  50% {
+    transform: scale(0.95);
+    color: #ef4444; /* Rouge pour indiquer la diminution */
+  }
+  100% {
+    transform: scale(1);
+    color: inherit;
+  }
+}
+
+.decrease-animation {
+  animation: decrease-animation 0.5s ease-in-out;
+}
+
+@keyframes decrease-animation {
+  0% {
+    transform: scale(1);
+    color: inherit;
+  }
+  50% {
+    transform: scale(0.95);
+    color: #ef4444;
+  }
+  100% {
+    transform: scale(1);
+    color: inherit;
+  }
+}
+
+/* Animation pour les mises à jour de statistiques */
+@keyframes updateAnimation {
+  0% {
+    transform: scale(1);
+    color: inherit;
+  }
+  50% {
+    transform: scale(1.1);
+    color: #ef4444; /* Rouge pour les diminutions */
+  }
+  100% {
+    transform: scale(1);
+    color: inherit;
+  }
+}
+
+.update-animation {
+  animation: updateAnimation 0.3s ease-in-out;
+}
+
+/* Animation pour la notification de suppression */
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* Style pour le bouton pendant la vérification */
+#checkWatchedButton:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+/* Animation du spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fa-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes increase-animation {
+  0% {
+    transform: scale(1);
+    color: inherit;
+  }
+  50% {
+    transform: scale(1.05);
+    color: #10b981;
+  }
+  100% {
+    transform: scale(1);
+    color: inherit;
+  }
+}
+
+.decrease-animation {
+  animation: decrease-animation 0.5s ease-in-out;
+}
+
+.increase-animation {
+  animation: increase-animation 0.5s ease-in-out;
+}
+
+.update-animation {
+  animation: update-watch-time 0.5s ease-in-out;
+}
+
+@keyframes watchTimeUpdate {
+  0% {
+    transform: scale(1);
+    color: #10b981;
+  }
+  50% {
+    transform: scale(1.05);
+    color: #059669;
+  }
+  100% {
+    transform: scale(1);
+    color: #10b981;
+  }
+}
+
+.update-animation {
+  animation: watchTimeUpdate 0.5s ease-in-out;
+}
+
+.animate-update {
+  animation: watchTimeUpdate 0.5s ease-in-out;
+}
+
+/* Animation fluide pour les changements de valeur */
+#totalWatchTime {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Style pour l'indicateur de mise à jour */
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Style pour le switch */
+.channel-card label {
+  position: relative;
+  display: inline-block;
+  width: 56px;
+  height: 28px;
+}
+
+.channel-card label input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.channel-card label div {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.channel-card label input:checked + div {
+  background-color: #ef4444;
+}
+
+.channel-card label div:after {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 2px;
+  top: 2px;
+  background-color: white;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.channel-card label input:checked + div:after {
+  transform: translateX(28px);
+}
+
+/* Animation lors du clic */
+.channel-card label div:active:after {
+  width: 28px;
+}
+
+.time-tag {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.3s ease;
+}
+
+.time-tag.fade-out {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.time-tag button {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.time-tag button:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  transform: scale(1.1);
+}
+
+.delete-btn {
+  cursor: pointer;
+}
+
+.delete-btn:focus {
+  outline: 2px solid rgba(239, 68, 68, 0.5);
+  outline-offset: 2px;
+}
+
+/* Dans styles.css */
+.channel-card {
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.channel-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(239, 68, 68, 0.1),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.channel-card.selected {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+}
+
+.channel-card.selected::before {
+  transform: translateX(100%);
+}
+
+/* Animation pour le switch */
+.channel-switch input:checked + div {
+  animation: switchPop 0.3s ease-in-out;
+}
+
+@keyframes switchPop {
+  0% {
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Ajoutez ces styles dans votre styles.css */
+.time-selector-container {
+  transition: all 0.3s ease;
+}
+
+.time-input-wrapper input::-webkit-outer-spin-button,
+.time-input-wrapper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.time-input-wrapper input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.time-tag {
+  animation: slideIn 0.3s ease-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.time-tag:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.time-tag.removing {
+  animation: slideOut 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* Styles pour le mode sombre */
+.dark .time-selector-container {
+  background-color: var(--bg-dark);
+}
+
+.dark .time-tag {
+  background-color: var(--bg-darker);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dark .time-tag:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Animation du bouton d'ajout */
+#addTimeButton {
+  position: relative;
+  overflow: hidden;
+}
+
+#addTimeButton::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+/* Dans styles.css */
+/* Sélecteur d'heures - Mode sombre */
+.time-selector-container {
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.dark .time-selector-container {
+  background-color: #1a1a1a; /* Fond très sombre */
+  border-color: #333333;
+}
+
+/* Inputs */
+.time-input-wrapper input {
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+.dark .time-input-wrapper input {
+  color: #ffffff;
+  background-color: #2d2d2d; /* Fond sombre pour les inputs */
+  border-color: #404040;
+}
+
+.dark .time-input-wrapper input:focus {
+  border-color: #ef4444; /* Rouge pour le focus */
+  background-color: #333333;
+}
+
+/* Séparateur des heures */
+.dark .time-input-wrapper span {
+  color: #666666;
+}
+
+/* Conteneur des inputs */
+.dark .time-input-group {
+  background-color: #1a1a1a;
+}
+
+/* Tags des horaires */
+.time-tag {
+  transition: all 0.3s ease;
+}
+
+.dark .time-tag {
+  background-color: #2d2d2d;
+  color: #ffffff;
+  border: 1px solid #404040;
+}
+
+.dark .time-tag:hover {
+  background-color: #333333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Bouton de suppression */
+.dark .time-tag .delete-btn {
+  color: #666666;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.dark .time-tag:hover .delete-btn {
+  opacity: 1;
+  color: #888888;
+}
+
+.dark .time-tag .delete-btn:hover {
+  color: #ef4444;
+}
+
+#addTimeButton:focus:not(:active)::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
+}
+
+/* Animations et transitions */
+.time-selector-container,
+.time-input-wrapper input,
+.time-tag,
+.delete-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.update-animation {
+  animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Effet de pulsation lors de l'ajout */
+@keyframes pulseAdd {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.time-tag.new {
+  animation: pulseAdd 0.3s ease-in-out;
+}
+
+/* Effet de disparition en fondu */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.time-tag.removing {
+  animation: fadeOut 0.3s ease-in-out forwards;
+}
+
+/* Styles pour le sélecteur de temps */
+.time-tag {
+  animation: fadeIn 0.3s ease-out;
+  transition: all 0.3s ease;
+}
+
+.time-tag:hover {
+  transform: translateY(-2px);
+}
+
+.time-tag.fade-out {
+  animation: fadeOut 0.3s ease-out;
+}
+
+.delete-btn {
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  transform: scale(1.1);
+  color: #ef4444;
+}
+
+/* Animation du bouton d'ajout */
+.animate-press {
+  animation: pressAnimation 0.2s ease-in-out;
+}
+
+@keyframes pressAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* Base */
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Mode clair (par défaut) */
+body {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Mode sombre */
+body.dark {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Conteneurs */
+.container {
+  background-color: inherit;
+}
+
+/* Cartes */
+.card {
+  background-color: inherit;
+  border: 1px solid var(--border);
+}
+
+/* Boutons - gardent leurs couleurs d'origine */
+.btn-primary {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #dc2626;
+}
+
+.btn-secondary {
+  background-color: #6b7280;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #4b5563;
+}
+
+/* Inputs */
+.input {
+  background-color: inherit;
+  border: 1px solid var(--border);
+  color: inherit;
+}
+
+/* Header et navigation */
+header,
+nav {
+  background-color: inherit;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Sélecteur de temps */
+.time-selector {
+  background-color: inherit;
+}
+
+.time-chip {
+  background-color: var(--timeSelector-chipBackground);
+  color: inherit;
+}
+
+/* Override des classes Tailwind */
+.dark .bg-white {
+  background-color: inherit !important;
+}
+
+.dark .bg-gray-100 {
+  background-color: #111111 !important;
+}
+
+.dark .bg-gray-200 {
+  background-color: #1a1a1a !important;
+}
+
+/* Pour conserver les couleurs des boutons */
+.btn-primary,
+.btn-secondary,
+.button-action {
+  background-color: var(--accent) !important;
+  color: white !important;
+}
+
+/* Pour les éléments qui doivent rester visibles */
+.dark .text-gray-600 {
+  color: #e5e5e5 !important;
+}
+
+.dark .text-gray-800 {
+  color: #ffffff !important;
+}
+
+/* Style pour le sélecteur d'heures précis */
+.time-selector-container {
+  background-color: var(--bg-card);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.time-input-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.time-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  transition: all var(--transition-normal) var(--bezier-smooth);
+}
+
+.time-input:hover {
+  border-color: var(--primary);
+}
+
+.time-input:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.time-input input {
+  width: 3rem;
+  background: transparent;
+  border: none;
+  text-align: center;
+  font-size: 1.125rem;
+  color: var(--text);
+}
+
+.time-input input:focus {
+  outline: none;
+}
+
+.time-input span {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.selected-times-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.time-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  color: var(--text);
+  transition: all var(--transition-normal) var(--bezier-bounce);
+}
+
+.time-tag:hover {
+  background: var(--primary);
+  color: white;
+  transform: scale(1.05);
+}
+
+.time-tag button {
+  border: none;
+  background: none;
+  padding: 0;
+  color: currentColor;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: opacity var(--transition-normal);
+}
+
+.time-tag button:hover {
+  opacity: 1;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Animations des boutons */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal) var(--bezier-smooth);
+  transform: translateZ(0);
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.btn:hover::after {
+  opacity: 1;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btn-secondary {
+  background: var(--secondary);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: var(--secondary-hover);
+}
+
+/* Animation du bouton de monitoring */
+.btn-monitoring {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all var(--transition-normal) var(--bezier-bounce);
+}
+
+.btn-monitoring i {
+  transition: transform var(--transition-normal) var(--bezier-bounce);
+}
+
+.btn-monitoring:hover i {
+  transform: scale(1.2) rotate(15deg);
+}
+
+.btn-monitoring.active {
+  animation: pulse var(--transition-slow) infinite;
+}
+
+/* Animation des time chips */
+.time-chip {
+  position: relative;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all var(--transition-normal) var(--bezier-bounce);
+  user-select: none;
+  overflow: hidden;
+}
+
+.time-chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.time-chip:hover::after {
+  opacity: 1;
+}
+
+.time-chip.active {
+  animation: pop var(--transition-normal) var(--bezier-bounce);
+  background: var(--primary);
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Loading spinner avec animation améliorée */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--primary);
+  animation: spin 1s linear infinite;
+  transform-origin: center center;
+}
+
+.dark .loading-spinner {
+  border-color: rgba(0, 0, 0, 0.3);
+  border-top-color: var(--primary);
+}
+/* Animations des cartes */
+.card {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition-normal) var(--bezier-smooth);
+  overflow: hidden;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+/* Animations des chaînes */
+.channel-card {
+  position: relative;
+  transition: all var(--transition-normal) var(--bezier-bounce);
+}
+
+.channel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.channel-card.selected {
+  animation: channelSelect var(--transition-normal) var(--bezier-bounce);
+}
+
+.channel-card .channel-thumbnail {
+  transition: transform var(--transition-normal) var(--bezier-bounce);
+}
+
+.channel-card:hover .channel-thumbnail {
+  transform: scale(1.1);
+}
+
+/* Switch personnalisé avec animation */
+.switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-track {
+  position: absolute;
+  inset: 0;
+  background-color: var(--switch-bg);
+  transition: all var(--transition-normal) var(--bezier-bounce);
+  border-radius: 24px;
+}
+
+.switch-track::before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: all var(--transition-normal) var(--bezier-bounce);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.switch input:checked + .switch-track {
+  background-color: var(--primary);
+}
+
+.switch input:checked + .switch-track::before {
+  transform: translateX(20px) scale(1.1);
+}
+
+.switch:active .switch-track::before {
+  transform: scale(0.9);
+}
+
+/* Animations des notifications */
+.toast {
+  animation: slideIn var(--transition-normal) var(--bezier-bounce);
+  transition: all var(--transition-normal) var(--bezier-smooth);
+  transform-origin: bottom right;
+}
+
+.toast.fade-out {
+  animation: fadeOut var(--transition-normal) var(--bezier-smooth);
+}
+
+.toast:hover {
+  transform: scale(1.02);
+}
+
+/* Animations de recherche et filtres */
+.search-input {
+  transition: all var(--transition-normal) var(--bezier-smooth);
+}
+
+.search-input:focus {
+  transform: scale(1.01);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.filter-select {
+  transition: all var(--transition-normal) var(--bezier-smooth);
+}
+
+.filter-select:focus {
+  transform: scale(1.01);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+/* Animations des statistiques */
+.stat-card {
+  transition: all var(--transition-normal) var(--bezier-bounce);
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+}
+
+.stat-value {
+  transition: all var(--transition-normal) var(--bezier-bounce);
+}
+
+.stat-value.updating {
+  animation: pulse var(--transition-slow) infinite;
+}
+
+/* Animations pour les vidéos */
+.video-card {
+  position: relative;
+  transition: all var(--transition-normal) var(--bezier-smooth);
+}
+
+.video-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.video-thumbnail {
+  transition: transform var(--transition-normal) var(--bezier-bounce);
+}
+
+.video-card:hover .video-thumbnail {
+  transform: scale(1.05);
+}
+
+.video-overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.video-card:hover .video-overlay {
+  opacity: 1;
+}
+
+/* Animations des boutons d'action */
+.action-button {
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal) var(--bezier-bounce);
+}
+
+.action-button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.3) 0%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.action-button:hover::after {
+  opacity: 1;
+}
+
+.action-button:active {
+  transform: scale(0.95);
+}
+
+/* Animations de chargement */
+.loading-overlay {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  transition: all var(--transition-normal);
+}
+
+.dark .loading-overlay {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.loading-content {
+  animation: fadeIn var(--transition-normal) var(--bezier-smooth);
+}
+
+/* Animation du bouton de thème */
+.theme-toggle {
+  transition: all var(--transition-normal) var(--bezier-bounce);
+}
+
+.theme-toggle:hover {
+  transform: rotate(180deg);
+}
+
+.theme-toggle .icon {
+  transition: all var(--transition-normal) var(--bezier-bounce);
+}
+
+.theme-toggle:hover .icon {
+  transform: scale(1.2);
+}
+
+/* Transitions du mode sombre */
+body {
+  transition: background-color var(--transition-normal),
+    color var(--transition-normal);
+}
+
+.dark .card,
+.dark .channel-card,
+.dark .video-card,
+.dark .stat-card {
+  transition: background-color var(--transition-normal),
+    border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+/* Animations des erreurs */
+.error-message {
+  animation: shake 0.4s var(--bezier-bounce);
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* État de désactivation */
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Utilitaires d'animation */
+.fade-in {
+  animation: fadeIn var(--transition-normal) var(--bezier-smooth);
+}
+.fade-out {
+  animation: fadeOut var(--transition-normal) var(--bezier-smooth);
+}
+.slide-in {
+  animation: slideIn var(--transition-normal) var(--bezier-bounce);
+}
+.pop {
+  animation: pop var(--transition-normal) var(--bezier-bounce);
+}
+.spin {
+  animation: spin 1s linear infinite;
+}
+.pulse {
+  animation: pulse var(--transition-slow) infinite;
+}
+
+/* Scrollbar personnalisée avec animation */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(203, 213, 225, 0.8);
+  border-radius: 4px;
+  transition: all var(--transition-normal);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.9);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(75, 85, 99, 0.8);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 114, 128, 0.9);
+}
+
+/* Mode sombre */
+.dark {
+  background-color: #000000 !important;
+  color: #ffffff;
+}
+
+.dark .bg-white,
+.dark .bg-gray-50,
+.dark .bg-gray-100,
+.dark .bg-gray-200 {
+  background-color: #000000 !important;
+}
+
+.dark .border {
+  border-color: #1a1a1a !important;
+}
+
+/* Préserver les boutons */
+.dark .btn-primary,
+.dark .btn-secondary,
+.dark .button-action {
+  background-color: var(--primary) !important;
+  color: #ffffff !important;
+}
+
+.dark .channel-card,
+.dark .video-card,
+.dark .time-selector-container {
+  background-color: #0a0a0a !important;
+}
+.dark .btn {
+  border: 1px solid var(--button-border);
+}
+
+.dark .btn-primary.selected {
+  background-color: var(--button-primary-selected);
+}
+
+.dark .btn-secondary.selected {
+  background-color: var(--button-secondary-selected);
+}
+
+/* Pour les boutons toggle comme le thème */
+.dark .btn-toggle {
+  background-color: var(--button-toggle-background);
+  color: var(--button-toggle-text);
+}
+
+.dark .btn-toggle:hover {
+  background-color: var(--button-toggle-hover);
+}
+
+.dark .btn-toggle.selected {
+  background-color: var(--button-toggle-selected);
+}
+.dark * {
+  color-scheme: dark;
+}
+
+.dark input::placeholder {
+  color: #4b5563;
+}
+
+.dark .text-white {
+  color: #9ca3af !important;
+}
+/* Pour assurer que les transitions sont fluides */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Pour gérer les placeholders en mode sombre */
+.dark input::placeholder {
+  color: #4b5563;
+}
+
+/* Pour forcer le mode sombre sur certains éléments */
+.dark * {
+  color-scheme: dark;
+}
+.dark .switch-track {
+  background-color: #374151 !important;
+}
+
+.dark .switch-track.selected,
+.dark input:checked + .switch-track {
+  background-color: #ef4444 !important;
+}
+
+.dark .switch-track::after {
+  background-color: #ffffff !important;
+  border: 2px solid currentColor;
+}
+/* Dans votre fichier CSS */
+.dark {
+  background-color: #000000 !important;
+  color: #9ca3af !important;
+}
+
+.dark .card {
+  background-color: #0a0a0a !important;
+  border-color: #1a1a1a !important;
+}
+
+.dark .toggle-switch {
+  background-color: #374151 !important;
+}
+
+.dark .toggle-switch.active {
+  background-color: #ef4444 !important;
+}
+/* Mode sombre - Styles de base */
+.dark {
+  background-color: #000000;
+  color: #9ca3af;
+}
+
+/* En-tête */
+.dark header {
+  background-color: #000000;
+  border-color: #1a1a1a;
+}
+
+/* Inputs et sélecteurs */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #0a0a0a;
+  color: #9ca3af;
+  border-color: #1a1a1a;
+}
+
+/* Cartes des chaînes */
+.dark .channel-card {
+  background-color: #0a0a0a;
+  border-color: #1a1a1a;
+}
+
+.dark .channel-card:hover {
+  background-color: #111111;
+}
+
+/* Switch Toggle */
+.dark .peer-checked\:bg-red-600:checked {
+  background-color: #ef4444;
+}
+
+.dark .peer-checked\:after\:border-white:checked::after {
+  border-color: #ffffff;
+}
+
+.dark .after\:bg-white::after {
+  background-color: #ffffff;
+}
+
+.dark .peer-checked\:after\:translate-x-full:checked::after {
+  transform: translateX(100%);
+}
+
+/* Boutons */
+.dark .btn-primary {
+  background-color: #ef4444;
+  color: #ffffff;
+  border: 2px solid #f87171;
+}
+
+.dark .btn-primary:hover {
+  background-color: #dc2626;
+  border-color: #ef4444;
+}
+
+.dark .btn-secondary {
+  background-color: #374151;
+  color: #ffffff;
+  border: 2px solid #4b5563;
+}
+
+.dark .btn-secondary:hover {
+  background-color: #4b5563;
+  border-color: #374151;
+}
+
+/* Switch (toggle) */
+.dark .switch-track {
+  background-color: #374151;
+  border: 2px solid #4b5563;
+}
+
+.dark .switch-track:hover {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.dark input:checked + .switch-track {
+  background-color: #ef4444;
+  border-color: #f87171;
+}
+
+.dark input:checked + .switch-track:hover {
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.dark .switch-track::after {
+  background-color: #ffffff;
+  border: 2px solid #6b7280;
+}
+
+/* Titres et textes */
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6 {
+  color: #e5e5e5;
+}
+
+.dark .text-gray-600 {
+  color: #9ca3af;
+}
+
+.dark .text-gray-800 {
+  color: #e5e5e5;
+}
+
+/* Zone de recherche */
+.dark .search-input {
+  background-color: #0a0a0a;
+  border-color: #1a1a1a;
+  color: #9ca3af;
+}
+
+/* Filtres et sélecteurs */
+.dark select {
+  background-color: #0a0a0a;
+  border-color: #1a1a1a;
+  color: #9ca3af;
+}
+
+.dark select option {
+  background-color: #0a0a0a;
+  color: #9ca3af;
+}
+
+/* Zone des statistiques */
+.dark .stats-card {
+  background-color: #0a0a0a;
+  border-color: #1a1a1a;
+}
+
+/* Animations et effets */
+.dark .channel-card,
+.dark .switch-track,
+.dark .btn-primary,
+.dark .btn-secondary {
+  transition: all 0.3s ease;
+}
+
+/* Hovers et états actifs */
+.dark .switch-track:hover::after {
+  transform: scale(1.1);
+}
+
+.dark .channel-card.selected {
+  border-color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+/* Notifications et alertes */
+.dark .toast {
+  background-color: #1a1a1a;
+  border-color: #374151;
+  color: #e5e5e5;
+}
+
+.dark .toast.success {
+  background-color: #065f46;
+  border-color: #059669;
+}
+
+.dark .toast.error {
+  background-color: #991b1b;
+  border-color: #dc2626;
+}
+
+/* Sélecteur de temps */
+.dark .time-selector {
+  background-color: #0a0a0a;
+  border-color: #1a1a1a;
+}
+
+.dark .time-chip {
+  background-color: #1a1a1a;
+  color: #9ca3af;
+}
+
+.dark .time-chip.active {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+/* Placeholders */
+.dark input::placeholder {
+  color: #4b5563;
+}
+
+/* Scrollbar personnalisée */
+.dark ::-webkit-scrollbar {
+  width: 12px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 6px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+/* Mode sombre forcé pour certains éléments */
+.dark * {
+  color-scheme: dark;
+}
+
+/* Borders et séparateurs */
+.dark .border-t,
+.dark .border-b,
+.dark .border-l,
+.dark .border-r {
+  border-color: #1a1a1a;
+}
+
+/* Ombres */
+.dark .shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.dark .shadow-lg {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+}

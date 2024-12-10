@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fr" class="light">
+  <head>
+    <meta name="theme-color" content="#1F2937" class="dark">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube Watch Later Pro</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
+    <link href="/static/css/styles.css" rel="stylesheet" />
+  </head>
+  <body class="bg-gray-100 min-h-screen dark:bg-gray-900">
+    <!-- État de chargement initial -->
+      <div id="initialLoadingOverlay" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-90 flex items-center justify-center">
+          <div class="text-center">
+              <div class="flex flex-col items-center space-y-6">
+                  <!-- Logo ou icône de chargement -->
+                  <div class="loading-spinner"></div>
+                  
+                  <!-- Message de statut -->
+                  <div id="loadingStatus" class="text-xl font-semibold text-white">
+                      Initialisation...
+                  </div>
+                  
+                  <!-- Barre de progression -->
+                  <div class="w-64 bg-gray-700 rounded-full h-2 overflow-hidden">
+                      <div id="loadingProgress" class="bg-red-500 h-full w-0 transition-all duration-300"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+
+    <!-- En-tête -->
+    <header class="bg-white dark:bg-gray-800 shadow-md">
+      <div class="container mx-auto px-4 py-4">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-4"
+        >
+          <h1
+            class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white flex items-center"
+          >
+            Watch Later
+            <span class="text-red-600 ml-2">Pro</span>
+          </h1>
+      
+
+
+          <!-- Statistiques -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="text-center">
+              <div
+                id="totalChannels"
+                class="text-2xl font-bold text-gray-800 dark:text-white"
+              >
+                0
+              </div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">
+                Vidéos totales
+              </div>
+            </div>
+
+            <div class="text-center">
+              <div
+                id="selectedChannels"
+                class="text-2xl font-bold text-red-600"
+              >
+                0
+              </div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">
+                Chaînes sélectionnées
+              </div>
+              <!-- À ajouter près du bouton "Vérifier les vidéos regardées" -->
+
+            </div>
+
+              <div class="text-center">
+                  <div class="relative">
+                      <div id="totalWatchTime" class="text-2xl font-bold text-green-600 transition-all duration-300">
+                          0.00min
+                      </div>
+                      <!-- Ajout d'un indicateur de mise à jour -->
+                      <div id="watchTimeUpdate" class="absolute -top-2 -right-2 hidden">
+                          <span class="flex h-3 w-3">
+                              <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-green-400 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                          </span>
+                      </div>
+                  </div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">
+                      Temps de visionnage
+                  </div>
+              </div>
+              <div class="text-center">
+                <div id="apiQuota" class="text-2xl font-bold text-blue-600">
+                  0%
+                </div>
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                  Quota API restant
+                </div>
+
+              </div>
+            
+
+            <!-- Dans index.html, zone des statistiques -->
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  <div class="text-center">
+                      <div class="flex items-center justify-center">
+                          <div id="totalChannels" class="text-2xl font-bold text-blue-600"></div>
+                          <div id="channelsFoundAnimation" class="text-sm text-green-500 ml-2 hidden">
+                              <i class="fas fa-arrow-up"></i>
+                              <span id="newChannelsCount">0</span>
+                          </div>
+                      </div>
+                      <div class="text-sm text-gray-600 dark:text-gray-400">
+                          Chaînes totales
+                      </div>
+                  </div>
+
+                  
+
+                  <!-- Ajout du compteur de vidéos -->
+                  <div class="text-center">
+                      <div class="flex items-center justify-center">
+                          <div id="totalVideos" class="text-2xl font-bold text-purple-600">0</div>
+                          <div id="newVideosAnimation" class="text-sm text-green-500 ml-2 hidden">
+                              <i class="fas fa-arrow-up"></i>
+                              <span id="newVideosCount">0</span>
+                          </div>
+                      </div>
+                      <div class="text-sm text-gray-600 dark:text-gray-400">
+                          Vidéos en playlist
+                      </div>
+                  </div>
+
+                  <!-- Autres statistiques existantes -->
+              </div>
+
+
+          </div>
+        </div>
+      </div>
+    </header>
+    
+
+
+    <!-- Menu -->
+    <nav class="bg-white dark:bg-gray-800 shadow-md mt-4">
+      <div class="container mx-auto px-4 py-2">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div class="flex-grow max-w-xl">
+                <input type="text" id="searchInput"
+                      class="w-full px-4 py-2 rounded-lg"
+                      placeholder="Rechercher une chaîne...">
+            </div>
+        </div>
+
+          <!-- Filtres -->
+          <div class="flex space-x-2">
+            <select
+              id="sortSelect"
+              class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            >
+              <option value="nameAsc">Nom (A-Z)</option>
+              <option value="nameDesc">Nom (Z-A)</option>
+              <option value="subsDesc">Abonnés (↓)</option>
+              <option value="subsAsc">Abonnés (↑)</option>
+              <option value="videosDesc">Vidéos (↓)</option>
+              <option value="videosAsc">Vidéos (↑)</option>
+            </select>
+
+            <select
+              id="filterSelect"
+              class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            >
+              <option value="all">Toutes les chaînes</option>
+              <option value="selected">Sélectionnées</option>
+              <option value="unselected">Non sélectionnées</option>
+            </select>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex space-x-4">
+            <button
+              onclick="selectAll()"
+              class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition-colors"
+            >
+              <i class="fas fa-check-double mr-1"></i>
+              Tout sélectionner
+            </button>
+
+            <button
+              id="monitoringButton"
+              onclick="toggleMonitoring()"
+              class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+            >
+              <i class="fas fa-play mr-1"></i>
+              Démarrer
+            </button>
+
+
+          </div>
+        </div>
+      </div>
+                <!-- Dans votre HTML -->
+          <body class="min-h-screen transition-colors duration-300">
+              <header class="border-b border-gray-200 dark:border-gray-800">
+                  <!-- Contenu du header -->
+              </header>
+
+              <main class="container mx-auto px-4 py-6">
+                  <!-- Le contenu de la page -->
+              </main>
+          </body>
+    </nav>
+
+
+
+
+
+        <!-- Modifiez le HTML du sélecteur d'heures -->
+        <div class="time-selector-container bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center">
+                <i class="fas fa-clock mr-3 text-red-500"></i>
+                Horaires de vérification
+                <span class="ml-3 text-sm font-normal text-gray-500 dark:text-gray-400">
+                    (Sélectionnez les heures de vérification quotidienne)
+                </span>
+            </h3>
+
+            <div class="time-input-group mb-6">
+                <div class="flex items-center justify-between space-x-4">
+                    <div class="flex-1">
+                        <div class="relative flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner">
+                            <div class="time-input-wrapper flex items-center space-x-2">
+                                <input type="number" 
+                                      id="hours" 
+                                      min="0" 
+                                      max="23" 
+                                      placeholder="00" 
+                                      class="w-16 text-2xl font-bold text-center bg-transparent text-gray-800 dark:text-white border-b-2 border-gray-300 dark:border-gray-600 focus:border-red-500 dark:focus:border-red-500 focus:outline-none transition-colors"
+                                />
+                                <span class="text-2xl font-bold text-gray-500 dark:text-gray-400">:</span>
+                                <input type="number" 
+                                      id="minutes" 
+                                      min="0" 
+                                      max="59" 
+                                      placeholder="00" 
+                                      class="w-16 text-2xl font-bold text-center bg-transparent text-gray-800 dark:text-white border-b-2 border-gray-300 dark:border-gray-600 focus:border-red-500 dark:focus:border-red-500 focus:outline-none transition-colors"
+                                />
+                            </div>
+                            
+                            <button id="addTimeButton" 
+                                    class="ml-4 px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center space-x-2">
+                                <i class="fas fa-plus"></i>
+                                <span>Ajouter</span>
+                            </button>
+
+
+
+
+                                  <!-- Sélecteur de date personnalisé (caché par défaut) -->
+                                  <div id="customDatePicker" class="hidden absolute z-10 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
+                                      <input type="datetime-local" 
+                                            id="customDateTime" 
+                                            class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+                                      <button onclick="applyCustomDate()" 
+                                              class="mt-2 w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                                          Appliquer
+                                      </button>
+                                  </div>
+                              </div>
+                          </div>
+                                                      <!-- Ajouter dans la section des filtres dans index.html -->
+                          <div class="flex items-center space-x-4 mb-4">
+                              <div class="relative">
+                                  <label for="videoDateLimit" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                      Récupérer les vidéos depuis
+                                  </label>
+                                  <select id="videoDateLimit" class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+                                      <option value="1h">1 heure</option>
+                                      <option value="6h">6 heures</option>
+                                      <option value="12h">12 heures</option>
+                                      <option value="24h">24 heures</option>
+                                      <option value="2d">2 jours</option>
+                                      <option value="7d">7 jours</option>
+                                      <option value="14d">14 jours</option>
+                                      <option value="30d">30 jours</option>
+                                      <option value="custom">Personnalisé...</option>
+                                  </select>
+                        </div>
+                    </div>
+                      <div class="flex items-center space-x-4">
+                          <div class="flex items-center space-x-2">
+                            
+                              
+                              <span class="text-sm text-gray-600 dark:text-gray-400">%</span>
+                          </div>
+                          <button id="checkWatchedButton" 
+                                  onclick="checkWatchedVideos()"
+                                  class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                              <i class="fas fa-check mr-1"></i>
+                              Vérifier les vidéos regardées
+                          </button>
+                      </div>
+                </div>
+            </div>
+
+
+            
+            <div class="selected-times-container">
+                <h4 class="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3">Horaires programmés :</h4>
+                <div id="selectedTimes" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    <!-- Les horaires seront injectés ici dynamiquement -->
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Un conteneur pour les notifications -->
+        <div id="notifications" class="fixed bottom-4 right-4 z-50"></div>
+
+        <!-- Template pour les horaires -->
+        <template id="timeTagTemplate">
+            <div class="time-tag bg-gray-50 dark:bg-gray-800 rounded-lg p-3 flex items-center justify-between group hover:transform hover:scale-105 transition-all duration-300">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-clock text-red-500"></i>
+                    <span class="time-text font-semibold dark:text-white"></span>
+                </div>
+                <button class="delete-btn opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 focus:outline-none transition-all duration-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </template>
+
+
+<button id="refreshChannelsButton" onclick="refreshChannels()"
+        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center">
+    <i class="fas fa-sync-alt mr-2"></i>
+    Actualiser les chaînes
+</button>
+
+
+<!-- Après le bouton de rafraîchissement -->
+<div id="refreshStatus" class="hidden">
+    <div class="flex items-center justify-between bg-gray-100 dark:bg-gray-800 p-4 rounded-lg mt-4">
+        <div class="flex items-center space-x-4">
+            <i id="refreshIcon" class="fas fa-sync-alt fa-spin text-blue-500"></i>
+            <div>
+                <h3 class="font-semibold text-gray-800 dark:text-white">
+                    Actualisation des chaînes
+                </h3>
+                <p id="refreshProgress" class="text-sm text-gray-600 dark:text-gray-400">
+                    Recherche des chaînes...
+                </p>
+            </div>
+        </div>
+        <div class="text-right">
+            <span id="channelsFound" class="text-2xl font-bold text-blue-500">0</span>
+            <span class="text-sm text-gray-600 dark:text-gray-400">chaînes trouvées</span>
+        </div>
+    </div>
+</div>
+
+
+
+      
+      <!-- Messages -->
+      <div
+        id="error"
+        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4 hidden"
+      ></div>
+
+      <!-- Loader -->
+      <div id="loader" class="text-center py-8 hidden">
+        <div
+          class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-lg"
+        >
+          <i class="fas fa-spinner fa-spin mr-2"></i>
+          Chargement...
+        </div>
+      </div>
+
+      <!-- Liste des chaînes -->
+      <div
+        id="channelList"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
+      >
+        <!-- Les chaînes seront injectées ici -->
+      </div>
+
+  
+
+
+
+
+
+<!-- Dans la section des statistiques en haut -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="text-center">
+        <div class="flex items-center justify-center">
+            <div id="totalChannels" class="text-2xl font-bold text-blue-600"></div>
+            <div id="channelsFoundAnimation" class="text-sm text-green-500 ml-2 hidden">
+                <i class="fas fa-arrow-up"></i>
+                <span id="newChannelsCount">0</span>
+            </div>
+        </div>
+        <div class="text-sm text-gray-600 dark:text-gray-400">
+        </div>
+    </div>
+
+    <!-- Autres statistiques existantes -->
+</div>
+
+
+
+
+
+
+<!-- Section des vidéos Watch Later -->
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+            Vidéos à regarder plus tard
+        </h2>
+        <button
+            onclick="refreshWatchLaterVideos()"
+            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+        >
+            <i class="fas fa-sync-alt mr-1"></i>
+            Rafraîchir
+        </button>
+
+          <button id="checkWatchedButton" onclick="checkWatchedVideos()"
+                  class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+              <i class="fas fa-check mr-1"></i>
+              Vérifier les vidéos regardées
+          </button>
+
+
+    <script>
+        // Vérifie et applique le thème immédiatement pour éviter le flash
+        if (localStorage.getItem('color-theme') === 'dark' ||
+            (!localStorage.getItem('color-theme') && 
+             window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+<div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+    <!-- Contenu -->
+</div>
+
+    </div>
+
+    <!-- Loader vidéos -->
+    <div id="watchLaterLoader" class="text-center py-8 hidden">
+        <div class="inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-lg">
+            <i class="fas fa-spinner fa-spin mr-2"></i>
+            Chargement des vidéos...
+        </div>
+    </div>
+
+    <!-- Grille des vidéos Watch Later -->
+    <div id="watchLaterVideos" 
+         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Les vidéos seront injectées ici -->
+    </div>
+</div>
+
+    <!-- Zone de notifications -->
+    <div id="notifications" class="fixed bottom-4 right-4 z-50 space-y-2">
+      <!-- Les notifications seront injectées ici -->
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/darkmode.js" type="module"></script>
+    <script src="/static/js/charts.js"></script>
+    <script src="/static/js/statistics.js"></script>
+    <script src="/static/js/timeSelector.js"></script>
+    <script src="/static/js/main.js"></script>
+  </body>
+</html>
